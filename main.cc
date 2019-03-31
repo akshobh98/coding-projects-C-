@@ -1,152 +1,188 @@
-/*************************************************************
-    Project 2		CS2401		Spring 2014
-    This is the main for your second project, a project which 
-    works with the concepts of a sequence class, an internal
-    iterator, and a dynamic array.
-    In order to make this main work you will need to write two 
-    classes, one called Friend and one called FBFriends. Going
-    through the code below you should be able to figure out what
-    member functions are needed for each.
-    Also, since FBFriends is holding dynamic memory you will need
-    to write the Big 3 for this class.
-    	John Dolan	Ohio University	School of EECS
-**************************************************************/
 //Akshobh Mirapurkar
-//Project 2
-//September 30, 2018
+//Project 5: Program that incorporates the concept of inheritance classes and creates a list of pointers to a parent class and adds objects to the list
+//according to the user and outputs it to the screen and a file
+//November 12, 2018
 
 #include<iostream>
-#include<fstream>
 #include<cstdlib>
+#include<iomanip>
 #include<string>
-#include "friend.h"
-#include "fbfriends.h"
+#include<list>
+#include<fstream>
+#include "closet_item.h"
 using namespace std;
 
+//Displays menu and returns the user's choice
 int menu();
-int menu2();
 
 int main(){
+	cout << "Welcome to Closet ManagementTM, ALL RIGHTS RESERVED" << endl;
 
-    Friend myfriend;
-    FBFriends myfb;
-    string friendname;
-    int choice,choice2;
-    string username, filename;
-    ifstream fin;
-    ofstream fout;
-    bool cutout;
+	string user;
 
-	cout<<"Welcome to Friends Management.\n\n";
-	cout<<"Begin by entering your username: ";
-	getline(cin,username);
-	filename = username + ".txt";
-	fin.open(filename.c_str());
-    if(!fin.fail())
-	myfb.load(fin);
-	fin.close();
-	choice = 0;
-	choice2 = 0;
-	cutout = false;
-        FBFriends original(myfb);
+	//Making a list of pointers called closet
+	list<Closet_item*> closet;
 
-	while(choice != 9){
-	    choice = menu();
-	    switch(choice){
-		case 1:	cin>>myfriend;
-		       	myfb.start();
-			myfb.insert(myfriend);
-			break;
-		case 2: myfb.show_all(cout);
-			break;
-		case 3: {myfb.start();
-			choice2 = 0;
-			while(myfb.is_item()&& choice2 <= 5){
-			    cout<<myfb.current();
-			    choice2 = menu2();
-			    if(choice2 == 1)
-				myfb.remove_current();
-			    else if(choice2 == 2){
-				if(!cutout)
-				cin>>myfriend;
-				if(myfb.is_friend(myfriend)) 
-				cout<<"Already in list.\n";
-				else
-				myfb.insert(myfriend);
-				cutout = false;
-			    }
-			    else if(choice2 == 3){
-				if(!cutout)
-				cin >> myfriend;
-                               if(myfb.is_friend(myfriend))
-                                cout<<"Already in list.\n";
-                                else
-				myfb.attach(myfriend);
-				cutout = false;
-			    }
-			    else if (choice2 == 4){
-				myfriend = myfb.current();
-				myfb.remove_current();
-				cutout = true;
-				}
-			    else if(choice2 == 5){
-				myfb.advance();
-			    }
-			    else
-				cout<<"Going back to main menu.\n";
-			}
-			break;
-			}
-		case 4: myfb.bday_sort();
-			break;
-		case 5:{
-			cout<<"Enter the name of your friend:\n";
-			if(cin.peek() == '\n') cin.ignore();
-			getline(cin, friendname);
-			myfriend = myfb.find_friend(friendname);
-			cout<<myfriend<<endl;
-			break;
-			}
-		case 6:	original.show_all(cout);
-			break;
-		default: break;
-		} // bottom of the switch
-	} // bottom of the while
-	fout.open(filename.c_str());
-        if(!fout.fail())
-	    myfb.save(fout);
-	else
-	    cout<<"Unable to save data.\n";
-	fout.close();
-
-	cout<<"Come visit your friends again soon.\n";
-exit(0);
-}
+	cout << "Please enter your username: ";
+	cin >> user;
 	
-int menu(){
-	int ans;
-	cout<<"Choose from the options below:\n";
-	cout<<"1 - Add a friend to the beginning of the list.\n";
-	cout<<"2 - See all your friends.\n";
-	cout<<"3 - Walk through the list, one friend at a time.\n";
-	cout<<"4 - Sort your friends by birthday.\n";
-	cout<<"5 - Find a friend so you can learn when they were born.\n";
-	cout<<"6 - See the list you started with in today's session. \n";
-	cout<<"9 - Leave the program.\n";
-	cin>>ans;
-    return ans;
+	string filename = user + ".txt"; //Makes the name of the text file
+
+	ifstream ins;
+	ins.open(filename.c_str());
+	if(!ins.fail()){
+		//Read in the identifier of the object at the top of the object in the string "something"
+		string something;
+		while(!ins.eof()){
+			ins >> something;
+			if(something == "shoes"){
+				Closet_item* tmp = new Shoes;
+				while(ins.peek() == '\n' || ins.peek() == '\r'){
+					ins.ignore();
+				}
+				tmp -> input(ins);
+				while(ins.peek() == '\n' || ins.peek() == '\r'){
+                                	ins.ignore();
+                        	}
+				closet.push_back(tmp);
+			} else if(something == "skeletons"){
+				Closet_item* tmp = new Skeletons;
+				while(ins.peek() == '\n' || ins.peek() == '\r'){
+					ins.ignore();
+				}
+				tmp -> input(ins);
+				while(ins.peek() == '\n' || ins.peek() == '\r'){
+                                	ins.ignore();
+                        	}
+				closet.push_back(tmp);
+			} else if(something == "nunchuks"){
+				Closet_item* tmp = new Nunchuks;
+				while(ins.peek() == '\n' || ins.peek() == '\r'){
+					ins.ignore();
+				}
+				tmp -> input(ins);
+				while(ins.peek() == '\n' || ins.peek() == '\r'){
+                                	ins.ignore();
+                        	}
+				closet.push_back(tmp);
+			} else if(something == "books"){
+				Closet_item* tmp = new Books;
+				while(ins.peek() == '\n' || ins.peek() == '\r'){
+                                	ins.ignore();
+                        	}
+				tmp -> input(ins);
+				while(ins.peek() == '\n' || ins.peek() == '\r'){
+                                	ins.ignore();
+                        	}
+				closet.push_back(tmp);
+			} else if(something == "pets"){
+				Closet_item* tmp = new Pets;
+				while(ins.peek() == '\n' || ins.peek() == '\r'){
+                                	ins.ignore();
+                        	}
+				tmp -> input(ins);
+				while(ins.peek() == '\n' || ins.peek() == '\r'){
+                                	ins.ignore();
+                        	}
+				closet.push_back(tmp);
+			}
+		}
+
+		ins.close();
+	} else {
+		//Make a new file with the user's desired name if the file doesn't already exist
+		cout << endl;
+		cout << "Looks like you don't have an account!" << endl;
+		cout << "Lets have you signed up!" << endl;
+		string name;
+		cout << "Enter your full name without spaces to signup: ";
+		cin >> name;
+		filename = name + ".txt";
+	}
+ 
+	//Menu shows on the screen and returns the choice to the variable choice
+	int choice = 0;
+	do{
+		choice = menu();
+		switch(choice){
+			case 1:{
+					Closet_item* tmp;
+					tmp = new Shoes;
+					tmp -> input(cin);
+					closet.push_back(tmp);
+				}
+				break;
+			case 2:{
+					Closet_item* tmp;
+					tmp = new Skeletons;
+					tmp -> input(cin);
+					closet.push_back(tmp);
+				}
+				break;
+			case 3:{
+					Closet_item* tmp;
+					tmp = new Nunchuks;
+					tmp -> input(cin);
+					closet.push_back(tmp);
+				}
+				break;
+			case 4:{
+					Closet_item* tmp;
+					tmp = new Books;
+					tmp -> input(cin);
+					closet.push_back(tmp);
+				}
+				break;
+			case 5:{
+					Closet_item* tmp;
+					tmp = new Pets;
+					tmp -> input(cin);
+					closet.push_back(tmp);
+				}
+				break;
+			case 6:{
+					cout << endl;
+					list<Closet_item*>::iterator it;
+					for(it = closet.begin(); it != closet.end(); ++it){
+						(*it) -> output(cout);
+					}
+				}
+				break;
+			case 7: cout << "See you soon!" << endl;
+				break;
+
+			default:{
+					cout << "Please enter a valid choice :)" << endl;
+				}
+				break;
+		}
+	} while(choice != 7);
+	//Output the list in the file to create a backup
+	ofstream outs;
+	outs.open(filename.c_str());
+	list<Closet_item*>::iterator it;
+        for(it = closet.begin(); it != closet.end(); ++it){
+                (*it) -> output(outs);
+	}
+
+	outs.close();
+
+
+return 0;
 }
 
-int menu2(){
-	int ans;
-	cout<<"What would like to do with this friend?\n";
-	cout<<"1 - Remove from the list.\n";
-	cout<<"2 - Insert a new friend or cut-out friend before this friend.\n";
-	cout<<"3 - Put a new friend or cut-out friend after this friend.\n";
-	cout<<"4 - Cut this friend from the list to be inserted elsewhere.\n";
-	cout<<"    If you want the friend earlier in the list you will need to start a new walk-through.\n";
-	cout<<"5 - Advance to the next friend.\n";
-	cout<<"6 - Return to main menu.\n";
-	cin>>ans;
-    return ans;
+int menu(){
+	int c = 0;
+	cout << endl;
+	cout << "1) Add new shoes " << endl;
+	cout << "2) Add new skeletons" << endl;
+	cout << "3) Add new nunchuks" << endl;
+	cout << "4) Add new books" << endl;
+	cout << "5) Add new pets" << endl;
+	cout << "6) Display current closet" << endl;
+	cout << "7) Exit" << endl;
+	cout << endl;
+	cout << "Select from the choices above: ";
+	cin >> c;
+	return c;
 }

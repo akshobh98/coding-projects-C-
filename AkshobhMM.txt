@@ -1,0 +1,72 @@
+shoes
+11.5
+Nike Blazers
+Beige
+shoes
+11.5
+Adidas Seeley
+Black and Gold
+shoes
+11.5
+Timbaland
+Black
+skeletons
+6
+250
+No
+Male
+nunchuks
+Foam
+rope
+0.5
+new
+skeletons
+4
+10
+yes
+female
+books
+Fiction
+Harry Potter
+JK Rowling
+books
+Non-fiction
+The monk who sold his ferrari
+Robin Sharma
+pets
+Hamster
+I am not sure
+No
+1
+pets
+Dog
+Huskey
+Yes
+2
+pets
+Cat
+Persian
+Yes
+3
+pets
+Bear
+Grizzly
+No
+5
+shoes
+5
+Fila
+Blue
+shoes
+4
+Fila
+Red
+nunchuks
+Foam
+chain
+0.5
+used
+shoes
+6
+Nike 
+Red
